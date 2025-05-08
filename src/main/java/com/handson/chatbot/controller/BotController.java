@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Service
@@ -17,31 +18,104 @@ import java.util.HashMap;
 @RequestMapping("/bot")
 public class BotController {
 
-    // Testing
     @Autowired
     WeatherService weatherService;
 
-    @RequestMapping(value = "/weather", method = RequestMethod.GET)
-    public ResponseEntity<?> getWeather(@RequestParam String city, @RequestParam int daysAhead) throws IOException {
-        return new ResponseEntity<>(weatherService.getWeather(city, daysAhead), HttpStatus.OK);
-    }
+    @Autowired
+    IMDBService ImdbService;
+
+    @Autowired
+    JokeService jokeService;
+
 
     // For bot
-
     @RequestMapping(value = "", method = { RequestMethod.POST})
     public ResponseEntity<?> getBotResponse(@RequestBody BotQuery query) throws IOException {
         HashMap<String, Object> params = query.getQueryResult().getParameters();
         String res = "Not found";
         if (params.containsKey("city")) {
             res = weatherService.getWeather((String)params.get("city"), (Integer) params.get("days"));
+        } else if (params.containsKey("type") || params.containsKey("blacklist")) {
+
+            boolean Programming = false;
+            boolean Miscellaneous = false;
+            boolean Dark = false;
+            boolean Pun = false;
+            boolean Spooky = false;
+            boolean Christmas = false;
+            boolean NOT_nsfw = false;
+            boolean NOT_religious = false;
+            boolean NOT_political = false;
+            boolean NOT_racist = false;
+            boolean NOT_sexist = false;
+            boolean NOT_explicit = false;
+            boolean single = true;
+            boolean twopart = true;
+
+            ArrayList<String> type =(ArrayList<String>) params.get("type");
+            ArrayList<String> blacklist = (ArrayList<String>) params.get("blacklist");
+
+            // Mark joke types
+            if (type.contains("any")) {
+                Pun = true;
+                Dark = true;
+                Spooky = true;
+                Christmas = true;
+                Miscellaneous = true;
+            } else {
+                if (type.contains("puns"))
+                    Pun = true;
+                if (type.contains("dark"))
+                    Dark = true;
+                if (type.contains("spooky"))
+                    Spooky = true;
+                if (type.contains("christmas"))
+                    Christmas = true;
+                if (type.contains("miscellaneous"))
+                    Miscellaneous = true;
+            }
+
+            if (blacklist.contains("nsfw"))
+                NOT_nsfw = true;
+            if (blacklist.contains("sexist"))
+                NOT_sexist = true;
+            if (blacklist.contains("racist"))
+                NOT_racist = true;
+            if (blacklist.contains("political"))
+                NOT_political = true;
+            if (blacklist.contains("religious"))
+                NOT_religious = true;
+            if (blacklist.contains("explicit"))
+                NOT_explicit = true;
+
+
+
+            res = jokeService.getJoke(
+                    Programming,
+                    Miscellaneous,
+                    Dark,
+                    Pun,
+                    Spooky,
+                    Christmas,
+                    NOT_nsfw,
+                    NOT_religious,
+                    NOT_political,
+                    NOT_racist,
+                    NOT_sexist,
+                    NOT_explicit,
+                    single,
+                    twopart
+            );
         } else if (params.containsKey("movie")) {
-//            res = amazonService.searchProducts(params.get("product"));
-        } else if (params.containsKey("joke")) {
             ;
         }
         return new ResponseEntity<>(BotResponse.of(res), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/weather", method = RequestMethod.GET)
+    public ResponseEntity<?> getWeather(@RequestParam String city, @RequestParam int daysAhead) throws IOException {
+        return new ResponseEntity<>(weatherService.getWeather(city, daysAhead), HttpStatus.OK);
+    }
 
     static class BotQuery {
         QueryResult queryResult;
@@ -79,17 +153,10 @@ public class BotController {
 
     }
 
-
-    @Autowired
-    IMDBService ImdbService;
-
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
     public ResponseEntity<?> getProduct(@RequestParam String keyword) throws IOException {
         return new ResponseEntity<>(ImdbService.searchMovies(keyword), HttpStatus.OK);
     }
-
-    @Autowired
-    JokeService jokeService;
 
     @RequestMapping(value = "/joke", method = RequestMethod.GET)
     public ResponseEntity<?> getJoke(
