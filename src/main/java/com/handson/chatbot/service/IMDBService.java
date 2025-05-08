@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 @Service
 public class IMDBService {
-    public static final Pattern PRODUCT_PATTERN = Pattern.compile("<h3 class=\"ipc-title__text\">\\d+\\.\\s(.*?)<\\/h3>");
+    public static final Pattern PRODUCT_PATTERN = Pattern.compile("<h3 class=\"ipc-title__text\">(.*?)<\\/h3>");
 
     public String searchMovies(String keyword) throws IOException {
         return parseMoviesHtml(getMoviesHtml(), keyword);
@@ -26,8 +26,14 @@ public class IMDBService {
                 res.append(title).append('\n');
             }
         }
-        return res.toString();
+
+        if (res.length() == 0) {
+            return "No movies were found";
+        } else {
+            return "The following movies contain your keyword:\n" + res.toString();
+        }
     }
+
     private String getMoviesHtml() throws IOException {
         OkHttpClient client = new OkHttpClient();
 

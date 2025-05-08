@@ -35,6 +35,9 @@ public class BotController {
         String res = "Not found";
         if (params.containsKey("city")) {
             res = weatherService.getWeather((String)params.get("city"), (Integer) params.get("days"));
+        } else if (params.containsKey("keyword")) {
+            String keyword =(String) params.get("keyword");
+            res = ImdbService.searchMovies(keyword);
         } else if (params.containsKey("type") || params.containsKey("blacklist")) {
 
             boolean Programming = false;
@@ -106,8 +109,6 @@ public class BotController {
                     single,
                     twopart
             );
-        } else if (params.containsKey("movie")) {
-            ;
         }
         return new ResponseEntity<>(BotResponse.of(res), HttpStatus.OK);
     }
