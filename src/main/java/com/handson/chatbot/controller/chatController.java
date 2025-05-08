@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class chatController {
 
-    @GetMapping("/chat")
+    @GetMapping("")
     public String homePage() {
         return "chat"; // corresponds to home.html
     }
