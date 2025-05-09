@@ -113,8 +113,6 @@ public class BotController {
             );
         }
 
-        System.out.println(res);
-
         return new ResponseEntity<>(BotResponse.of(res), HttpStatus.OK);
     }
 

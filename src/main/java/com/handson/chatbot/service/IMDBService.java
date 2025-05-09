@@ -41,7 +41,7 @@ public class IMDBService {
                 .url("https://www.imdb.com/chart/top/?ref_=nv_mv_250")
                 .get()
                 .addHeader("accept", "text/html")
-                .addHeader("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 Edg/135.0.0.0")
+                .addHeader("user-agent", "IMDBService/1.0 (Render; contact@natan-bot-9upj.onrender.com)")
                 .build();
 
         Response response = client.newCall(request).execute();
