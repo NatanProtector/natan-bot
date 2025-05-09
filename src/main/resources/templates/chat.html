@@ -2,33 +2,204 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello World Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natan Bot</title>
     <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cae;
+            --text-color: #333333;
+            --background-color: #f5f7fa;
+            --accent-color: #ff7e5f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         html, body {
             height: 100%;
-            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-        .full-page {
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 2rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .description {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .feature-list {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        .chat-instructions {
+            text-align: center;
+            margin: 3rem 0;
+            padding: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .chat-instructions p {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .chat-instructions .arrow {
+            display: block;
             font-size: 2rem;
+            margin-top: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        footer {
+            margin-top: auto;
+            text-align: center;
+            padding: 2rem 0;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Make the Dialogflow chat widget more prominent */
+        df-messenger {
+            --df-messenger-button-border-radius: 28px;
+            --df-messenger-button-width: 56px;
+            --df-messenger-button-height: 56px;
+            --df-messenger-chat-window-height: 80vh;
+            --df-messenger-chat-window-width: 380px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .description {
+                font-size: 1rem;
+            }
+
+            .feature-card {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-<div class="full-page">
-    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-    <df-messenger
-            chat-title="natan-chatbot"
-            agent-id="854d5668-b254-4cc5-91f0-5d5e17847621"
-            language-code="en"
-    ></df-messenger>
+<div class="container">
+    <header>
+        <h1>Natan Bot</h1>
+        <p class="description">
+            Welcome to Natan Bot - your intelligent web scraping assistant that can tell jokes, provide real-time weather updates for cities in Israel, and search for keywords in top-rated movies on IMDB. You can also enjoy casual conversation and silly banter with the bot! Experience the power of automated information retrieval with a friendly, conversational interface.
+        </p>
+    </header>
 
+    <div class="feature-list">
+        <div class="feature-card">
+            <h3>Entertainment</h3>
+            <p>Ask Natan Bot to tell you a joke and brighten your day with humor curated just for you.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Weather Updates</h3>
+            <p>Get accurate and current weather information for any city in Israel, helping you plan your day effectively.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Movie Search</h3>
+            <p>Discover top-rated movies on IMDB by searching for keywords that match your interests.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Conversation</h3>
+            <p>Engage in fun, lighthearted banter with Natan Bot. Ask questions, share thoughts, or just chat for entertainment!</p>
+        </div>
+    </div>
+
+    <div class="chat-instructions">
+        <p>To chat with Natan Bot, click the button in the bottom right corner of the screen</p>
+        <span class="arrow">↘️</span>
+    </div>
+
+    <footer>
+        <p>© 2025 Natan Bot - Powered by advanced web scraping technology</p>
+    </footer>
 </div>
+
+<script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+<df-messenger
+        chat-title="Natan Bot"
+        agent-id="854d5668-b254-4cc5-91f0-5d5e17847621"
+        language-code="en">
+</df-messenger>
 </body>
 </html>

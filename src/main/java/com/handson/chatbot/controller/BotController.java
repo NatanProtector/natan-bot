@@ -116,10 +116,6 @@ public class BotController {
         return new ResponseEntity<>(BotResponse.of(res), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/weather", method = RequestMethod.GET)
-    public ResponseEntity<?> getWeather(@RequestParam String city, @RequestParam int daysAhead) throws IOException {
-        return new ResponseEntity<>(weatherService.getWeather(city, daysAhead), HttpStatus.OK);
-    }
 
     static class BotQuery {
         QueryResult queryResult;
@@ -155,6 +151,11 @@ public class BotController {
             return res;
         }
 
+    }
+
+    @RequestMapping(value = "/weather", method = RequestMethod.GET)
+    public ResponseEntity<?> getWeather(@RequestParam String city, @RequestParam int daysAhead) throws IOException {
+        return new ResponseEntity<>(weatherService.getWeather(city, daysAhead), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/movies", method = RequestMethod.GET)
@@ -197,4 +198,5 @@ public class BotController {
                         twopart
                 ), HttpStatus.OK);
     }
+
 }
