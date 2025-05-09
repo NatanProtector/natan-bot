@@ -34,7 +34,9 @@ public class BotController {
         HashMap<String, Object> params = query.getQueryResult().getParameters();
         String res = "Not found";
         if (params.containsKey("city")) {
-            res = weatherService.getWeather((String)params.get("city"), (Integer) params.get("days"));
+            Double daysDouble = (Double) params.get("days");
+            int days = daysDouble.intValue();
+            res = weatherService.getWeather((String) params.get("city"), days);
         } else if (params.containsKey("keyword")) {
             String keyword =(String) params.get("keyword");
             res = ImdbService.searchMovies(keyword);
@@ -110,6 +112,9 @@ public class BotController {
                     twopart
             );
         }
+
+        System.out.println(res);
+
         return new ResponseEntity<>(BotResponse.of(res), HttpStatus.OK);
     }
 
